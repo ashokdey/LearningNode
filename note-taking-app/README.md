@@ -1,7 +1,7 @@
 #Note Taking Command Line Utility
 * This is a command line utility to take notes on the go
 * This is the third app by me while learning Node
-* It uses Yargs and Lodash libraries
+* It uses **Yargs** and **Lodash** libraries
 
 ###Screenshot
 ![Screenshot](one.JPG)
