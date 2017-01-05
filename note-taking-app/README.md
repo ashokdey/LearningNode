@@ -10,4 +10,4 @@
 
 _In the terminal, type *npm install & npm start* to setup and run the application._
 
-You liked it? Star it !
+*You liked it? _Star it_ !*
