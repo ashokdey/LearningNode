@@ -8,6 +8,6 @@
 
 ####How to run?
 
-_In the terminal, type *npm install & npm start* to setup and run the application.
+_In the terminal, type *npm install & npm start* to setup and run the application._
 
 You liked it? Star it !
