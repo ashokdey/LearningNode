@@ -41,12 +41,14 @@ if (command === 'add')
 else if (command == 'list') 
 {
     let gotNotes = notes.getAll();
+    console.log(gotNotes);
 
     if (gotNotes) {
         console.log('Getting all the notes...');
+        
         //print each note
-        for (let i in notes) {
-            notes.printNote(notes[i]);
+        for (let i in gotNotes) {
+            notes.printNote(gotNotes[i]);
         }
     }
     else {
