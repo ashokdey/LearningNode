@@ -4,7 +4,7 @@ const fs    = require('fs');
 const _     = require('lodash');
 const yargs = require('yargs');
 
-const notes = require('./notes');
+const noteLib = require('./note-lib');
 
 // load the command objects for yargs
 const yargsOptions = fs.readFileSync('yargs-config.json');
@@ -33,14 +33,14 @@ const command = argv._[0];
 
 if (command === 'add') 
 {
-    const note = notes.addNote(argv.title, argv.body);
+    const note = noteLib.addNote(argv.title, argv.body);
     note ? console.log('Your note is saved.') 
     : console.log('Title already exists! Choose a different title');
 }
 
 else if (command == 'list') 
 {
-    let gotNotes = notes.getAll();
+    let gotNotes = noteLib.getAll();
     console.log(gotNotes);
 
     if (gotNotes) {
@@ -48,7 +48,7 @@ else if (command == 'list')
         
         //print each note
         for (let i in gotNotes) {
-            notes.printNote(gotNotes[i]);
+            noteLib.printNote(gotNotes[i]);
         }
     }
     else {
@@ -58,10 +58,10 @@ else if (command == 'list')
 
 else if (command === 'view') 
 {
-    let requiredNote = notes.getNote(argv.title);
+    let requiredNote = noteLib.getNote(argv.title);
 
     if (requiredNote.title) {
-        notes.printNote(requiredNote);
+        noteLib.printNote(requiredNote);
     }
     else if (requiredNote.empty) {
         console.log('File empty or corrupted');       
@@ -73,7 +73,7 @@ else if (command === 'view')
 
 else if (command === 'del')
 {
-    const deleted = notes.removeNote(argv.title);
+    const deleted = noteLib.removeNote(argv.title);
     deleted ? console.log(`Note with title '${argv.title}' deleted`) 
     : console.log ('Invalid Title! Try "node note-app --help"');
 }
