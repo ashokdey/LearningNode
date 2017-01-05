@@ -4,7 +4,7 @@ const http = require('http');
 const express = require('express');
 const fs = require('fs');
 
-//open config file synchronously 
+//open config file asynchronously 
 const configJSON = fs.readFile('./config.json', 'utf-8', (err, file)=>{
     const data = JSON.parse(file);
     const app = express();
