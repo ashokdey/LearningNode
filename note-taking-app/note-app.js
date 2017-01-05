@@ -46,7 +46,7 @@ else if (command == 'list')
         console.log('Getting all the notes...');
         //print each note
         for (let i in notes) {
-            printNote(notes[i]);
+            notes.printNote(notes[i]);
         }
     }
     else {
@@ -73,10 +73,10 @@ else if (command === 'del')
 {
     const deleted = notes.removeNote(argv.title);
     deleted ? console.log(`Note with title '${argv.title}' deleted`) 
-    : console.log ('Invalid Title! Try again.');
+    : console.log ('Invalid Title! Try "node note-app --help"');
 }
 
 else 
 {
-    console.log('Invalid Title! Try "node note-app --help"');
+    console.log('Invalid Command. Try Again!');
 }
