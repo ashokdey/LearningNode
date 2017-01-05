@@ -41,8 +41,7 @@ if (command === 'add')
 else if (command == 'list') 
 {
     let gotNotes = noteLib.getAll();
-    console.log(gotNotes);
-
+   
     if (gotNotes) {
         console.log('Getting all the notes...');
         
