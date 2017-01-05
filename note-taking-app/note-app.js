@@ -78,5 +78,5 @@ else if (command === 'del')
 
 else 
 {
-    console.log('Invalid Command. Try Again!');
+    console.log('Invalid Title! Try "node note-app --help"');
 }

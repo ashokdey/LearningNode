@@ -4,7 +4,7 @@
   "description": "simple note taking app",
   "main": "app.js",
   "scripts": {
-    "start": "node app",
+    "start": "node note-app --help",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ashok Dey",
