@@ -1,0 +1,14 @@
+{
+    "title" : {
+        "describe" : "Title of the note",
+        "demand": "true",
+        "alias" : "t"
+    },
+
+    "body" : {
+        "describe" : "The content of your note",
+        "demand" : "true",
+        "alias" : "b"
+    }
+
+}

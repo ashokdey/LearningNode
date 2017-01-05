@@ -1,0 +1,16 @@
+{
+  "name": "note-taking-app",
+  "version": "0.1.0",
+  "description": "simple note taking app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ashok Dey",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "yargs": "^4.7.1"
+  }
+}
