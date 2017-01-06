@@ -1,0 +1,15 @@
+{
+  "name": "weather-app",
+  "version": "0.1.0",
+  "description": "command line weather app using node ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ashok Dey",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.79.0",
+    "yargs": "^6.6.0"
+  }
+}

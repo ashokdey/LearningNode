@@ -1,3 +1,4 @@
 #ignore the modules folder
 first-web-app/node_modules
 note-taking-app/node_modules
+weather-app/node_modules
