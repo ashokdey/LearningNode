@@ -1,6 +1,3 @@
-# LearningNode
-My footprints while learning Node
-
 This folder contains all the small apps that I made/making while learning Node. 
 As of now the apps that may be useful to you are :
 
