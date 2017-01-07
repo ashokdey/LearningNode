@@ -1,9 +1,10 @@
-#Simple NodeJS Dynamic Website
+#Simple NodeJS Website
 * This very simple web application.
 * This is the fifth app by me while learning Node
 * It uses **Express** and **Handlebars(hbs)** modules
 * It also uses **MaterializeCSS** 
 * It uses **Handlebars** as a templating engine
+* It includes the header and footer from the **views/partials** folder
 * It also shows a 404 page in case of invalid urls
 * It logs the requests and timestamp in the **serve.log** file located in **logs** folder
 
