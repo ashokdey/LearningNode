@@ -1,0 +1,16 @@
+{
+  "name": "first-dynamic-site",
+  "version": "0.1.0",
+  "description": "simple dynamic site using node and hbs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Ashok Dey",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0",
+    "hbs": "^4.0.1"
+  }
+}
