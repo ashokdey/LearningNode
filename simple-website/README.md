@@ -13,7 +13,9 @@ _In the terminal, type **npm install & npm start** to setup and run the applicat
 _Open terminal, type **localhost:5000"**_
 
 ###Screenshot
+_Main Page_
 ![Main Page](screenshot-1.JPG)
+_404 Page_
 ![404 Page](screenshot-2.JPG)
 
 ###See maintaniance in action
