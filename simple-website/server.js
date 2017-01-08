@@ -23,9 +23,9 @@ app.use((req, res, next) => {
 });
 
 // remove the comments for maintainance
-app.use((req, res, next) => {
-    res.render('maintainance.hbs');
-});
+//app.use((req, res, next) => {
+//    res.render('maintainance.hbs');
+//});
 
 hbs.registerHelper('getCurrentYear', () => {
     return new Date().getFullYear();
@@ -52,7 +52,7 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.get('/bad', (req, res) => {
+app.get('/api', (req, res) => {
     res.send({
         status : 400,
         errorMessage : 'bad_request'
