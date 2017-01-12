@@ -1,0 +1,14 @@
+{
+  "name": "streams-and-pipes",
+  "version": "0.1.0",
+  "description": "demostration of streams and pipes",
+  "main": "stream-pipe-on-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ashok Dey",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
