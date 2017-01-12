@@ -52,7 +52,7 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.get('/bad', (req, res) => {
+app.get('/api', (req, res) => {
     res.send({
         status : 400,
         errorMessage : 'bad_request'
