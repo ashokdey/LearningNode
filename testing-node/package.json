@@ -1,0 +1,17 @@
+{
+  "name": "testing-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "server.js",
+    "test": "mocha **/*.test.js",
+    "test-watch": "nodemon --exec \" npm test\""
+  },
+  "author": "Ashok Dey",
+  "license": "MIT",
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0"
+  }
+}
