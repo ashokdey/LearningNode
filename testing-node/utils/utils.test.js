@@ -27,3 +27,11 @@ it('should set first and last name', () => {
         lastName: 'Dey'
     })
 });
+
+//testing async functions
+
+it('should async add two numbers', () => {
+    utils.asyncAdd(3, 4, (sum) => {
+        expect(sum).toBe(7).toBeA('number');
+    });
+});
