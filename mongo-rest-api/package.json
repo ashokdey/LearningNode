@@ -10,6 +10,8 @@
   "author": "Ashok Dey",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
     "mongodb": "^2.2.21"
   }
 }
