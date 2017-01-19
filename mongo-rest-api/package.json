@@ -4,7 +4,8 @@
   "description": "a simple REST API",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha rest-api-app/**/*test.js",
+    "test-watch" : " nodemon --exec \"npm test\" ",
     "start": "node server.js"
   },
   "author": "Ashok Dey",
@@ -12,6 +13,13 @@
   "dependencies": {
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
-    "mongodb": "^2.2.21"
+    "mongodb": "^2.2.21",
+    "mongoose": "^4.7.7"
+  },
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0",
+    "supertest": "^2.0.1"
   }
 }
