@@ -1,16 +1,20 @@
 const expect    = require('expect');
 const request   = require('supertest');
 const {app}     = require('./../server/server');
+const {ObjectID} = require('mongodb');
 const {Todo}    = require('./../models/todo');
 const {User}    = require('./../models/user');
 
 
 // seed data 
 const dummyTodos = [{
+    _id : new ObjectID(),
     text : 'first dummy todo'
 },{
+    _id : new ObjectID(),    
     text : 'second dummy todo'
 },{
+    _id : new ObjectID(),    
     text : 'third dummy todos'
 }];
 
@@ -78,4 +82,39 @@ describe ('POST /todos', () => {
         });
     });
 
+});
+
+
+describe ('GET /todos/id', () => {
+    it('should return a todo doc', (done) => {
+        request(app)
+        .get(`/todos/${dummyTodos[0]._id.toHexString()}`)
+        .expect(200)
+        .expect((res) => {
+            expect(res.body.todo.text).toBe(dummyTodos[0].text);
+        })
+        .end(done);
+    });
+
+    it('should give a 404 if id not found', (done) => {
+        //create a new id for testing 
+        let hexID = new ObjectID();
+        request(app)
+        .get('/todos/' + hexID)
+        .expect(404)
+        .expect((res) => {
+            expect(res.body.status).toBe(404);
+        })
+        .end(done);
+    });
+
+    it('should return a 400 if id is invalid', (done) => {
+        request(app)
+        .get(`/todos/${dummyTodos[0]._id.toHexString() + '21'}`)
+        .expect(400)
+        .expect((res) => {
+            expect(res.body.status).toBe(400);
+        })
+        .end(done);
+    });
 });

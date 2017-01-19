@@ -8,6 +8,8 @@ const {mongoose} = require('./../db/mongoose');
 const {Todo} = require('./../models/todo');
 const {User} = require('./../models/user');
 
+let port = process.env.PORT || 3000;
+
 // the body-parser middleware
 app.use(bodyParser.json());
 
@@ -44,7 +46,7 @@ app.get('/todos/:id', (req, res) => {
 
     // if the ID is valid not valid, send a message
     if (!ObjectID.isValid(todoID)) {
-        console.log('Invalid todo ID');
+        //console.log('Invalid todo ID');
         return res.status(400).send({
             message : 'InvalidID',
             status : 400
@@ -66,12 +68,12 @@ app.get('/todos/:id', (req, res) => {
 
     }).catch((err) => {
         res.sendStatus(400).send({err});
-        console.log('todoId not found');
+        //console.log('todoId not found');
     });
 });
 
-app.listen(3000, () => {
-    console.log('server listening at port 3000');
+app.listen(port, () => {
+    console.log('server listening at port : ' + port);
 });
 
 module.exports = {app};

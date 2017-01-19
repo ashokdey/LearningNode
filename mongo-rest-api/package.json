@@ -4,7 +4,7 @@
   "description": "a simple REST API",
   "main": "server.js",
   "scripts": {
-    "test": "mocha rest-api-app/**/*test.js",
+    "test": "mocha app/**/*test.js",
     "test-watch" : " nodemon --exec \"npm test\" ",
     "start": "node server.js"
   },
