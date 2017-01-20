@@ -118,3 +118,38 @@ describe ('GET /todos/id', () => {
         .end(done);
     });
 });
+
+describe('DELETE /todos/id', () => {
+
+    let hexID = new ObjectID();    
+
+    it('should give 400 for invalid id', (done) => {
+        request(app)
+        .delete(`/todos/${hexID.toHexString() + '45'}`)
+        .expect(400)
+        .expect((res) => {
+            expect(res.body.status).toBe(400);
+        })
+        .end(done);
+    });
+
+    it('should give 404 if todo not found', (done) => {
+        request(app)
+        .delete(`/todos/${hexID.toHexString()}`)
+        .expect(404)
+        .expect((res) => {
+            expect(res.body.status).toBe(404);
+        })
+        .end(done);
+    });
+
+    it('should delete a todo for a valid id', (done) => {
+        request(app)
+        .delete(`/todos/${dummyTodos[0]._id.toHexString()}`)
+        .expect(200)
+        .expect((res) => {
+            expect(res.body.status).toBe(200);
+        })
+        .end(done);
+    });
+});
