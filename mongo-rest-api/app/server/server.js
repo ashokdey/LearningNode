@@ -1,12 +1,12 @@
 'use strict';
+const _             = require('lodash');
+const app           = require('express')();
+const bodyParser    = require('body-parser');
 
-const app = require('express')();
-const bodyParser = require('body-parser');
-
-const {ObjectID} = require('mongodb');
-const {mongoose} = require('./../db/mongoose');
-const {Todo} = require('./../models/todo');
-const {User} = require('./../models/user');
+const {ObjectID}    = require('mongodb');
+const {mongoose}    = require('./../db/mongoose');
+const {Todo}        = require('./../models/todo');
+const {User}        = require('./../models/user');
 
 let port = process.env.PORT || 3000;
 
@@ -99,6 +99,48 @@ app.delete('/todos/:id', (req, res) => {
         message : 'Error',
         status : 400
     }));
+});
+
+app.patch('/todos/:id', (req, res) => {
+    let todoID = req.params.id;
+    let body = _.pick(req.body, ['text', 'completed']);
+
+    if (!ObjectID.isValid(todoID)) {
+        console.log('id rejected by isValid()');
+        return res.status(400).send({
+            message : 'InvalidID',
+            status : 400
+        });
+    }
+        // check if the completed field is boolena or not 
+        // and it's value is  true
+        
+    if(_.isBoolean(body.completed) && body.completed) {
+        // set the completed as true and the timestamp
+        body.completed = true;
+        body.completedAt = new Date().getTime();
+    } else {
+        body.completed = false;
+        body.completedAt = null;
+    }
+
+    // update the database
+    Todo.findByIdAndUpdate(todoID, { $set : body}, {new : true}).then((data) => {
+        if (!data) {
+            return res.status(404).send({
+                message : 'Todo not found',
+                status : 404
+            });
+        }
+
+        res.status(200).send({todo : data});
+
+    }).catch((e) => {
+        res.status(400).send({
+            message : 'Failed to Update',
+            status : 400
+        });
+    });
 });
 
 app.listen(port, () => {
