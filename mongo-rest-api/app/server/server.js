@@ -1,13 +1,5 @@
 'use strict';
-let env = process.env.NODE_ENV || 'development';
-
-if (env ===  'development') {
-    
-}
-else if (env === 'test'){
-
-}
-
+const config        = require('./config');
 const _             = require('lodash');
 const app           = require('express')();
 const bodyParser    = require('body-parser');
