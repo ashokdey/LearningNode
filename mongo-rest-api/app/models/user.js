@@ -1,5 +1,6 @@
 'use strict';
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 let User = mongoose.model('User', {
     name : {
@@ -12,14 +13,29 @@ let User = mongoose.model('User', {
         type : String,
         required : true,
         minlength : 5,
-        trim : true
+        trim : true,
+        unique : true,
+        validate : {
+            validator : validator.isEmail,
+            message : '{value} is invalid email'
+        }
     },
     password : {
         type : String,
         required : true,
-        minlength : 5,
+        minlength : 5, 
         trim : true
-    }
+    },
+    tokens : [{
+        access : {
+            type : String,
+            required : true
+        },
+        token : {
+            type : String,
+            required : true
+        }
+    }] 
 });
 
 module.exports = {User};

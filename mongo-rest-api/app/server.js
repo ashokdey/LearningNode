@@ -148,4 +148,25 @@ app.listen(port, () => {
     console.log('server listening at port : ' + port);
 });
 
+// user routes here 
+
+app.post('/users', (req, res) => {
+    // pick the email name and password using lodash pick method
+    let userData = _.pick(req.body, ['name', 'email', 'password']);
+    console.log(userData);
+    // create new instance of the User model
+    let user = new User(userData);
+    // save the user data inside the DB
+    user.save().then((data) => {
+        // send the data
+        res.status(200).send({user : data});
+    }).catch((err) => {
+        // send the error
+        res.status(400).send({
+            error : err,
+            status : 400
+        })
+    })
+});
+
 module.exports = {app};
