@@ -4,7 +4,7 @@
   "description": "a simple REST API",
   "main": "server.js",
   "scripts": {
-    "test": "mocha app/**/*test.js",
+    "test": "export NODE_ENV=test || \"SET NODE_ENV=test\" && mocha app/**/*test.js",
     "test-watch": " nodemon --exec \"npm test\" ",
     "start": "node server.js"
   },
