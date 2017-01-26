@@ -4,10 +4,11 @@ const _             = require('lodash');
 const app           = require('express')();
 const bodyParser    = require('body-parser');
 
-const {ObjectID}    = require('mongodb');
-const {mongoose}    = require('./db/mongoose');
-const {Todo}        = require('./models/todo');
-const {User}        = require('./models/user');
+const {ObjectID}        = require('mongodb');
+const {mongoose}        = require('./db/mongoose');
+const {Todo}            = require('./models/todo');
+const {User}            = require('./models/user');
+const {authenticate}    = require('./middlewares/authenticate');
 
 let port = process.env.PORT || 3000;
 
@@ -73,7 +74,7 @@ app.get('/todos/:id', (req, res) => {
     });
 });
 
-// create the delete route 
+// create the delete todo by id route 
 app.delete('/todos/:id', (req, res) => {
     let todoID = req.params.id;
 
@@ -145,21 +146,23 @@ app.patch('/todos/:id', (req, res) => {
 });
 
 // user routes here 
+// POST /users route
+
 app.post('/users', (req, res) => {
     // pick the email name and password using lodash pick method
     let userData = _.pick(req.body, ['name', 'email', 'password']);
-    // console.log(userData);
+    
     // create new instance of the User model
     let user = new User(userData);
     // save the user data inside the DB
     user.save().then(() => {
         ///generate token
         return user.generateAuthToken();
-        // send the data
+
     }).then((token) => {
-        // console.log(token);
         res.header('x-auth', token).send({user});
         console.log('User signup successful');
+
     }).catch((err) => {
         console.log('error : ', err);        
         // send the error
@@ -170,23 +173,13 @@ app.post('/users', (req, res) => {
     })
 });
 
-app.get('/users/me', (req, res) => {
-    let token = req.header('x-auth');
-    
-    User.findByToken(token).then((user) => {
-        if(!user) {
-            return Promise.reject();
-        }
-        // send th details if found
-        res.status(200).send(user)
-    }).catch((err) => {
-        res.status(401).send({
-            err,
-            status : 401
-        });
-    });
+// GET users/me route, using the token header
+app.get('/users/me', authenticate, (req, res) => {
+    res.status(200).send(req.user)
 });
 
+
+// Listen to the port 
 app.listen(port, () => {
     console.log('server listening at port : ' + port);
 });
