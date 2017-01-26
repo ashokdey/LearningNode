@@ -1,9 +1,9 @@
-const expect    = require('expect');
-const request   = require('supertest');
-const {app}     = require('./../server/server');
-const {ObjectID} = require('mongodb');
-const {Todo}    = require('./../models/todo');
-const {User}    = require('./../models/user');
+const expect        = require('expect');
+const request       = require('supertest');
+const {app}         = require('./../server/server');
+const {ObjectID}    = require('mongodb');
+const {Todo}        = require('./../models/todo');
+const {User}        = require('./../models/user');
 
 
 // seed data 
