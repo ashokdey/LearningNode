@@ -178,6 +178,17 @@ app.get('/users/me', authenticate, (req, res) => {
     res.status(200).send(req.user)
 });
 
+app.post('/users/login', (req, res) => {
+    let userData = _.pick(req.body, ['email', 'password']);
+    // search for the user in using the email
+    User.findByCredentials(userData.email, userData.password).then((user) => {
+        return user.generateAuthToken().then((token) => {
+            res.header('x-auth', token).send(user);
+        });
+    }).catch((err) => {
+        res.status(400).send({err, status: 400});
+    });
+});
 
 // Listen to the port 
 app.listen(port, () => {
