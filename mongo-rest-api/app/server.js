@@ -161,13 +161,13 @@ app.post('/users', (req, res) => {
 
     }).then((token) => {
         res.header('x-auth', token).send({user});
-        console.log('User signup successful');
+        //console.log('User signup successful');
 
     }).catch((err) => {
-        console.log('error : ', err);        
+        //console.log('error : ', err);        
         // send the error
         res.status(400).send({
-            error : err,
+            error : 'error occured',
             status : 400
         })
     })

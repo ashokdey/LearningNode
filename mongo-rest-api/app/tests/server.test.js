@@ -1,32 +1,16 @@
 const expect        = require('expect');
 const request       = require('supertest');
-const {app}         = require('./../server/server');
+const {app}         = require('./../server');
 const {ObjectID}    = require('mongodb');
 const {Todo}        = require('./../models/todo');
 const {User}        = require('./../models/user');
 
-
-// seed data 
-const dummyTodos = [{
-    _id : new ObjectID(),
-    text : 'first dummy todo'
-},{
-    _id : new ObjectID(),    
-    text : 'second dummy todo',
-    completed : true,
-    completedAt : 1484982333753
-},{
-    _id : new ObjectID(),    
-    text : 'third dummy todos'
-}];
+const {dummyTodos, populateTodos, dummyUsers, populateUsers} = require('./seed/seed');
 
 
 // make the DB empty first
-beforeEach((done) => {
-    Todo.remove({}).then(() => {
-        return Todo.insertMany(dummyTodos)
-    }).then(() => done());
-});
+beforeEach(populateUsers);
+beforeEach(populateTodos);
 
 // write tests 
 describe ('GET /todos', () => {
@@ -199,4 +183,75 @@ describe('PATCH /todos/:id', () => {
 
     });
 
+});
+
+describe('GET /users/me', () => {
+
+    it('should return a user for valid token', (done) => {
+        request(app)
+        .get('/users/me')
+        .set('x-auth', dummyUsers[0].tokens[0].token)
+        .expect(200)
+        .expect((res) => {
+            expect(res.body._id).toBe(dummyUsers[0]._id.toHexString());
+            expect(res.body.email).toBe(dummyUsers[0].email);
+        }).end(done);
+    });
+
+    it('should give 401 for invalid token', (done) => {
+        let value = undefined;
+        request(app)
+        .get('/users/me')
+        .expect(401)
+        .expect((res) => {
+            expect(res.body.status).toBe(401)
+        }).end(done);        
+    }); 
+});
+
+describe('POST /users', () => {
+    it('should create a user with valid email and name', (done) => {
+        let name = 'example';
+        let email = 'ex@mail.co';
+        let password = 'example@pass';
+
+        request(app)
+        .post('/users')
+        .send({name, email, password})
+        .expect(200)
+        .expect((res) => {
+            expect(res.body.user.email).toBe(email);
+            expect(res.body.user._id).toExist();
+            expect(res.headers['x-auth']).toExist();
+        }).end((err) => {
+            if (err) {
+                return done();
+            }
+            User.findOne({email}).then((user) => {
+                expect(user).toExist();
+                expect(user.email).toBe(email);
+                expect(user.password).toNotBe(password);
+                done();
+            });
+        });
+    });
+
+    it('should give validation error for invalid data', (done) => {
+        let email = 'error';
+        let password = 'abc';
+        
+        request(app)
+        .post('/users')
+        .send({})
+        .expect(400)
+        .end(done);
+    });
+
+    it('should give a 400 for duplicate email', (done) => {
+        request(app)
+        .post('/users')
+        .send(dummyUsers[0])
+        .expect(400)
+        .end(done);
+    });
 });
