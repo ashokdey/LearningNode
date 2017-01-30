@@ -178,6 +178,8 @@ app.get('/users/me', authenticate, (req, res) => {
     res.status(200).send(req.user)
 });
 
+// login route
+
 app.post('/users/login', (req, res) => {
     let userData = _.pick(req.body, ['email', 'password']);
     // search for the user in using the email
@@ -187,6 +189,16 @@ app.post('/users/login', (req, res) => {
         });
     }).catch((err) => {
         res.status(400).send({err, status: 400});
+    });
+});
+
+//logout route
+
+app.delete('/users/me/token', authenticate, (req, res) => {
+    req.user.removeToken(req.token).then(() => {
+        res.status(200).send();
+    }, () => {
+        res.status(400).send();
     });
 });
 
