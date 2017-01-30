@@ -16,9 +16,11 @@ let port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 // create a GET /todos route
-app.get('/todos', (req, res) => {
+app.get('/todos', authenticate, (req, res) => {
     
-    Todo.find().then((data) => {
+    Todo.find({
+        _creator : req.user._id
+    }).then((data) => {
         res.send({data});
     }, (err) => {
         res.status(400).send(err);
@@ -26,10 +28,11 @@ app.get('/todos', (req, res) => {
 });
 
 // create a POST /todos route 
-app.post('/todos', (req, res) => {
+app.post('/todos', authenticate, (req, res) => {
     // make a todo and save it into the database
     let todo = new Todo({
-        text : req.body.text
+        text : req.body.text,
+        _creator : req.user._id
     });
 
     todo.save().then((data) => {
@@ -42,7 +45,7 @@ app.post('/todos', (req, res) => {
 });
 
 // get todos by id GET /todos/id
-app.get('/todos/:id', (req, res) => {
+app.get('/todos/:id', authenticate,  (req, res) => {
     //get the todo id in todoID
     let todoID = req.params.id;
 
@@ -54,8 +57,12 @@ app.get('/todos/:id', (req, res) => {
             status : 400
         });
     }
-
-    Todo.findById(todoID).then((data) => {
+    // search for todo with the todo id and the creator
+    // do not displa todo if the creator id is different
+    Todo.findOne({
+        _id : todoID,
+        _creator : req.user._id
+    }).then((data) => {
         if (!data) {
             return res.status(404).send({
                 message : 'Todo not found',
@@ -75,7 +82,7 @@ app.get('/todos/:id', (req, res) => {
 });
 
 // create the delete todo by id route 
-app.delete('/todos/:id', (req, res) => {
+app.delete('/todos/:id', authenticate, (req, res) => {
     let todoID = req.params.id;
 
     if (!ObjectID.isValid(todoID)) {
@@ -85,7 +92,10 @@ app.delete('/todos/:id', (req, res) => {
         });
     }
 
-    Todo.findByIdAndRemove(todoID).then((data) => {
+    Todo.findOneAndRemove({
+        _id : todoID,
+        _creator : req.user._id
+    }).then((data) => {
         if(!data) {
             return res.status(404).send({
                 message : 'Todo not found',
@@ -103,7 +113,7 @@ app.delete('/todos/:id', (req, res) => {
     }));
 });
 
-app.patch('/todos/:id', (req, res) => {
+app.patch('/todos/:id', authenticate, (req, res) => {
     let todoID = req.params.id;
     let body = _.pick(req.body, ['text', 'completed']);
 
@@ -116,7 +126,7 @@ app.patch('/todos/:id', (req, res) => {
     }
         // check if the completed field is boolena or not 
         // and it's value is  true
-        
+
     if(_.isBoolean(body.completed) && body.completed) {
         // set the completed as true and the timestamp
         body.completed = true;
@@ -127,7 +137,10 @@ app.patch('/todos/:id', (req, res) => {
     }
 
     // update the database
-    Todo.findByIdAndUpdate(todoID, { $set : body}, {new : true}).then((data) => {
+    Todo.findOneAndUpdate({ 
+        _id : todoID, 
+        _creator : req.user._id 
+    }, { $set : body}, {new : true}).then((data) => {
         if (!data) {
             return res.status(404).send({
                 message : 'Todo not found',
