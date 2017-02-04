@@ -60,13 +60,23 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// custom middlewares 
+let isLoggedIn = (req, res, next) => {
+    if(req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/');
+}
+
 // ROUTES here 
 
 app.get('/', (req, res) => {
     res.render('home');
 });
 
-app.get('/secret', (req, res) => {
+
+app.get('/secret',isLoggedIn, (req, res) => {
+
     res.render('secret');
 });
 
