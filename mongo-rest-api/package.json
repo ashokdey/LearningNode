@@ -8,6 +8,9 @@
     "test-watch": " nodemon --exec \"npm test\" ",
     "start": "node app/server.js"
   },
+  "engines" : {
+    "node" : "6.2.2"
+  },
   "author": "Ashok Dey",
   "license": "MIT",
   "dependencies": {
