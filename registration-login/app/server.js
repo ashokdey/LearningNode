@@ -15,7 +15,7 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 // custom modules here 
 const db        = require('./db');
-const {User}   = require('./models/user');
+const {User}    = require('./models/user');
 
 //create the app
 const app = express();
@@ -48,6 +48,15 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(express.static(__dirname + '/_public'));
 
 // passport serialize and deserialize 
+
+// use this form of code if you have your input fields are named other than usernam and password  
+// passport.use(new LocalStrategy({
+//     usernameField:'user[username]',
+//     passwordField:'user[password]'
+//   },
+// User.authenticate()));
+
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -57,15 +66,18 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+app.get('/secret', (req, res) => {
+    res.render('secret');
+});
+
 app.get('/register', (req, res) => {
     res.render('register');
 });  
 
 app.post('/register', (req, res) => {
     // register the user
-     
     User.register(new User({ 
-        username : req.body.email, 
+        username : req.body.username, 
         _createdAt : new Date().getTime()
     }), req.body.password, (err, user) => {
         if(err) {
@@ -73,13 +85,25 @@ app.post('/register', (req, res) => {
             return res.render('register');
         }
         passport.authenticate('local')(req, res, function(){
-            res.redirect('secret');
+            console.log('inside passport.authenticate : 80');
+            res.redirect('/secret');
         });
     });
 });
 
-app.get('/secret', (req, res) => {
-    res.render('secret');
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/login',passport.authenticate('local', {
+        successRedirect : '/secret',
+        failureRedirect : '/login'
+    }),(req, res) => {
+});
+
+app.get('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/');
 });
 
 // listen to the port
